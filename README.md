@@ -80,6 +80,7 @@ Results: [`evaluation_report/`](evaluation_report/)
 git clone https://github.com/vidya235252-crypto/investigator-copilot.git
 cd investigator-copilot
 pip install -r requirements.txt
+python data/generate_dataset.py
 cp .env.example .env   # fill in LLM_API_KEY if you have one; falls back to a
                         # deterministic template if left empty
 ```
