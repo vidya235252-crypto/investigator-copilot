@@ -4,6 +4,8 @@ import joblib
 from sklearn.ensemble import RandomForestClassifier
 from detection import behavioral_signals, temporal_signals, transaction_signals
 
+DEFAULT_THRESHOLD = 0.5
+
 FEATURE_ORDER = [
     "is_new_device",
     "password_changed",
