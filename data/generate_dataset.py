@@ -14,8 +14,9 @@ OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "raw")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 SCENARIO_COUNTS = {
-    "legitimate_account_change": 220,
-    "new_device_legitimate": 180,
+    "legitimate_account_change": 170,
+    "new_device_legitimate": 150,
+    "legitimate_password_reset": 80,
     "credential_compromise": 70,
     "credential_stuffing": 60,
     "full_account_takeover": 45,
