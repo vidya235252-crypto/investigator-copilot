@@ -4,3 +4,4 @@ __pycache__/
 data/raw/*.db
 data/raw/*.csv
 .ipynb_checkpoints/
+venv/
