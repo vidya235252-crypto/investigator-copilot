@@ -1,4 +1,5 @@
 import uuid
+import numpy as np
 
 def build_timeline(account_events):
     events = account_events.sort_values("timestamp")
@@ -14,6 +15,15 @@ def build_timeline(account_events):
         })
     return timeline
 
+def _to_native(value):
+    if isinstance(value, (np.integer,)):
+        return int(value)
+    if isinstance(value, (np.floating,)):
+        return float(value)
+    if isinstance(value, (np.bool_,)):
+        return bool(value)
+    return value
+
 def build_evidence_list(signals, contributing_signals):
     evidence = []
     for item in contributing_signals:
@@ -21,6 +31,6 @@ def build_evidence_list(signals, contributing_signals):
             "evidence_id": f"ev_{uuid.uuid4().hex[:8]}",
             "signal": item["signal"],
             "weight": item["weight"],
-            "value": item["value"],
+            "value": _to_native(item["value"]),
         })
     return evidence
