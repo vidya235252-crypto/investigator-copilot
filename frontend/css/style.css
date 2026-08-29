@@ -1,0 +1,122 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #0f1115;
+  color: #e4e6eb;
+}
+
+.app-header {
+  padding: 24px 32px;
+  border-bottom: 1px solid #262a33;
+}
+
+.app-header h1 {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.subtitle {
+  color: #8b92a4;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+main {
+  padding: 24px 32px;
+}
+
+.case-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.case-card {
+  display: block;
+  background: #161922;
+  border: 1px solid #262a33;
+  border-radius: 10px;
+  padding: 16px;
+  text-decoration: none;
+  color: inherit;
+  border-left: 4px solid #444;
+  transition: transform 0.1s ease;
+}
+
+.case-card:hover {
+  transform: translateY(-2px);
+}
+
+.case-card.risk-high {
+  border-left-color: #e5484d;
+}
+
+.case-card.risk-medium {
+  border-left-color: #f5a623;
+}
+
+.case-card.risk-low {
+  border-left-color: #3ecf8e;
+}
+
+.case-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.account-id {
+  font-family: monospace;
+  font-size: 13px;
+  color: #8b92a4;
+}
+
+.status-badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  background: #262a33;
+}
+
+.case-card-scores {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 10px;
+}
+
+.score-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.score-label {
+  font-size: 11px;
+  color: #8b92a4;
+}
+
+.score-value {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.top-signal {
+  font-size: 13px;
+  color: #c4c8d4;
+  text-transform: capitalize;
+}
+
+.loading, .empty, .error {
+  color: #8b92a4;
+  padding: 24px;
+}
+
+.error {
+  color: #e5484d;
+}
