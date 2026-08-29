@@ -1,19 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>InvestigatorCopilot — Case Queue</title>
-  <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InvestigatorCopilot — Queue</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <header class="app-header">
-    <h1>InvestigatorCopilot</h1>
-    <p class="subtitle">Account-Takeover Investigation Queue</p>
-  </header>
-  <main>
-    <div id="case-list" class="case-list"></div>
+<div class="shell">
+  <aside class="rail">
+    <div class="rail-brand">
+      <span class="rail-mark">IC</span>
+      <span class="rail-name">InvestigatorCopilot</span>
+    </div>
+    <nav class="rail-nav">
+      <span class="rail-nav-label">Workspace</span>
+      <a class="rail-nav-item active" href="index.html">Investigation Queue</a>
+    </nav>
+    <div class="rail-footer">
+      <span class="rail-footer-label">Track</span>
+      <span class="rail-footer-value">Account Takeover / Payment Abuse</span>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar-title">
+        <h1>Investigation Queue</h1>
+        <p id="queue-count" class="topbar-sub">Loading cases…</p>
+      </div>
+      <div class="filter-tabs" id="filter-tabs">
+        <button class="filter-tab active" data-status="">All</button>
+        <button class="filter-tab" data-status="open">Open</button>
+        <button class="filter-tab" data-status="closed">Closed</button>
+        <button class="filter-tab" data-status="escalated">Escalated</button>
+      </div>
+    </header>
+
+    <section class="queue-table-wrap">
+      <div class="queue-table-header">
+        <span class="col col-account">Account</span>
+        <span class="col col-score">ML Risk</span>
+        <span class="col col-score">Rule Risk</span>
+        <span class="col col-signal">Primary Signal</span>
+        <span class="col col-time">Opened</span>
+        <span class="col col-status">Status</span>
+      </div>
+      <div id="queue-rows" class="queue-rows"></div>
+    </section>
   </main>
-  <script src="js/api.js"></script>
-  <script src="js/queue.js"></script>
+</div>
+<script src="js/api.js"></script>
+<script src="js/queue.js"></script>
 </body>
 </html>
