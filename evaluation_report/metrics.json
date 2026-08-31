@@ -1,0 +1,116 @@
+{
+  "test_set_size": 120,
+  "ml_model": {
+    "precision": 1.0,
+    "recall": 0.925,
+    "f1": 0.961,
+    "false_positive_rate": 0.0,
+    "confusion_matrix": {
+      "tn": 80,
+      "fp": 0,
+      "fn": 3,
+      "tp": 37
+    },
+    "pr_auc": 0.9907,
+    "per_scenario_recall": {
+      "ato_with_payment_abuse": {
+        "n": 5,
+        "n_positive": 5,
+        "recall": 1.0
+      },
+      "credential_compromise": {
+        "n": 14,
+        "n_positive": 14,
+        "recall": 0.7857
+      },
+      "credential_stuffing": {
+        "n": 12,
+        "n_positive": 12,
+        "recall": 1.0
+      },
+      "full_account_takeover": {
+        "n": 9,
+        "n_positive": 9,
+        "recall": 1.0
+      },
+      "legitimate_account_change": {
+        "n": 34,
+        "n_positive": 0,
+        "recall": null
+      },
+      "legitimate_password_reset": {
+        "n": 16,
+        "n_positive": 0,
+        "recall": null
+      },
+      "new_device_legitimate": {
+        "n": 30,
+        "n_positive": 0,
+        "recall": null
+      }
+    }
+  },
+  "rule_engine": {
+    "precision": 0.6667,
+    "recall": 1.0,
+    "f1": 0.8,
+    "false_positive_rate": 0.25,
+    "confusion_matrix": {
+      "tn": 60,
+      "fp": 20,
+      "fn": 0,
+      "tp": 40
+    },
+    "pr_auc": 0.7727,
+    "per_scenario_recall": {
+      "ato_with_payment_abuse": {
+        "n": 5,
+        "n_positive": 5,
+        "recall": 1.0
+      },
+      "credential_compromise": {
+        "n": 14,
+        "n_positive": 14,
+        "recall": 1.0
+      },
+      "credential_stuffing": {
+        "n": 12,
+        "n_positive": 12,
+        "recall": 1.0
+      },
+      "full_account_takeover": {
+        "n": 9,
+        "n_positive": 9,
+        "recall": 1.0
+      },
+      "legitimate_account_change": {
+        "n": 34,
+        "n_positive": 0,
+        "recall": null
+      },
+      "legitimate_password_reset": {
+        "n": 16,
+        "n_positive": 0,
+        "recall": null
+      },
+      "new_device_legitimate": {
+        "n": 30,
+        "n_positive": 0,
+        "recall": null
+      }
+    }
+  },
+  "triage_time": {
+    "avg_manual_seconds": 8.6,
+    "avg_structured_evidence_seconds": 4.7,
+    "avg_ai_summary_seconds_optional": 17.1,
+    "structured_evidence_reduction_percent": 45.8,
+    "n_cases": 10,
+    "methodology": "Primary comparison is reading the full raw event timeline (manual) vs. the structured evidence list alone (copilot), both as word-count proxies at 200 words/minute. The AI narrative summary is reported separately as optional supplementary reading, since a real investigator would consult it for ambiguous cases rather than always reading it in full. This is a reading-time proxy, not a timed user study."
+  },
+  "thresholds_used": {
+    "ml_threshold": 0.5,
+    "rule_threshold": 10,
+    "rule_threshold_tuning_val_f1": 0.8163
+  }
+}
