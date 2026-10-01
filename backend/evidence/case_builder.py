@@ -1,6 +1,6 @@
 import uuid
 from datetime import datetime
-from detection import behavioral_signals, temporal_signals, transaction_signals, risk_engine, ml_risk_model
+from detection import behavioral_signals, temporal_signals, transaction_signals, risk_engine, ml_risk_model, ml_explainer
 from evidence import collector
 
 def build_case(account_id, account_events, model):
@@ -11,6 +11,7 @@ def build_case(account_id, account_events, model):
     }
     rule_result = risk_engine.rule_based_score(signals)
     ml_score = ml_risk_model.predict_risk_score(model, signals)
+    ml_explanation = collector.build_ml_explanation(ml_explainer.explain(model, signals))
 
     timeline = collector.build_timeline(account_events)
     evidence = collector.build_evidence_list(signals, rule_result["contributing_signals"])
@@ -23,5 +24,6 @@ def build_case(account_id, account_events, model):
         "ml_risk_score": ml_score,
         "timeline": timeline,
         "evidence": evidence,
+        "ml_explanation": ml_explanation,
         "status": "open",
     }

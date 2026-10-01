@@ -1,35 +1,39 @@
-import os
+import logging
 import requests
-from dotenv import load_dotenv
 from ai import prompts, fallback
 
-load_dotenv()
+logger = logging.getLogger(__name__)
+
+OLLAMA_URL = "http://localhost:11434/api/chat"
+OLLAMA_MODEL = "qwen2.5:3b-instruct"
+
 
 def generate_summary(case: dict) -> str:
-    api_key = os.getenv("LLM_API_KEY")
-    if not api_key:
-        return fallback.generate_fallback_summary(case)
-
     try:
         response = requests.post(
-            "https://api.anthropic.com/v1/messages",
-            headers={
-                "x-api-key": api_key,
-                "anthropic-version": "2023-06-01",
-                "content-type": "application/json",
-            },
+            OLLAMA_URL,
             json={
-                "model": "claude-sonnet-4-6",
-                "max_tokens": 400,
-                "system": prompts.SYSTEM_PROMPT,
+                "model": OLLAMA_MODEL,
                 "messages": [
-                    {"role": "user", "content": prompts.build_user_prompt(case)}
+                    {"role": "system", "content": prompts.SYSTEM_PROMPT},
+                    {"role": "user", "content": prompts.build_user_prompt(case)},
                 ],
+                "stream": False,
+                "options": {"temperature": 0.1},
             },
-            timeout=10,
+            timeout=120,
         )
-        response.raise_for_status()
+
+        if not response.ok:
+            raise RuntimeError(f"Ollama error {response.status_code}: {response.text}")
+
         data = response.json()
-        return data["content"][0]["text"]
+
+        if "message" not in data or "content" not in data["message"]:
+            raise RuntimeError(f"Unexpected Ollama response: {data}")
+
+        return data["message"]["content"]
+
     except Exception:
+        logger.exception("Ollama failed for %s, using fallback", case.get("case_id"))
         return fallback.generate_fallback_summary(case)

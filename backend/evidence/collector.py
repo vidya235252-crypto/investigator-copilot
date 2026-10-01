@@ -34,3 +34,19 @@ def build_evidence_list(signals, contributing_signals):
             "value": _to_native(item["value"]),
         })
     return evidence
+
+def build_ml_explanation(explanation):
+    """Attach evidence ids to the ML explainer output so drivers can be cited like rule evidence."""
+    drivers = []
+    for item in explanation["drivers"]:
+        drivers.append({
+            "evidence_id": f"mlev_{uuid.uuid4().hex[:8]}",
+            "signal": item["signal"],
+            "weight": item["weight"],          # signed points the feature moved the ML score
+            "value": _to_native(item["value"]),  # None = event never occurred for this account
+        })
+    return {
+        "base_score": explanation["base_score"],
+        "drivers": drivers,
+        "other": explanation["other"],
+    }

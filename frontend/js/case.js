@@ -123,6 +123,51 @@ function renderEvidence(evidence){
   `).join("");
 }
 
+const BINARY_SIGNALS=new Set(["is_new_device","password_changed","email_changed","payment_instrument_added","payment_instrument_change_before_transaction"]);
+
+function formatMlValue(signal,value){
+  if(value===null||value===undefined) return "not observed";
+  if(BINARY_SIGNALS.has(signal)) return value?"yes":"no";
+  const n=Number(value);
+  const text=Number.isInteger(n)?n.toLocaleString():n.toLocaleString(undefined,{maximumFractionDigits:1});
+  return signal.endsWith("_sec")?`${text} s`:text;
+}
+
+function signedPoints(w){
+  return `${w>0?"+":w<0?"−":""}${Math.abs(w).toFixed(1)}`;
+}
+
+function renderMlExplanation(ml,score){
+  if(!ml) return `<p class="notes-empty">No score breakdown stored for this case. Re-seed to generate one.</p>`;
+  const rows=ml.drivers.map(d=>`
+    <div class="evidence-row">
+      <span class="evidence-weight ${d.weight>0?"ml-up":"ml-down"}">${signedPoints(d.weight)}</span>
+      <span class="evidence-signal">${d.signal.replaceAll("_"," ")}</span>
+      <span class="evidence-value">${formatMlValue(d.signal,d.value)}</span>
+    </div>
+  `).join("");
+  const other=Math.abs(ml.other)>=0.05?`
+    <div class="evidence-row ml-muted">
+      <span class="evidence-weight">${signedPoints(ml.other)}</span>
+      <span class="evidence-signal">all other signals (net)</span>
+      <span class="evidence-value"></span>
+    </div>`:"";
+  return `
+    <div class="evidence-row ml-muted">
+      <span class="evidence-weight">${ml.base_score.toFixed(1)}</span>
+      <span class="evidence-signal">model baseline</span>
+      <span class="evidence-value"></span>
+    </div>
+    ${rows}${other}
+    <div class="evidence-row ml-total">
+      <span class="evidence-weight">${score.toFixed(1)}</span>
+      <span class="evidence-signal">ML risk score</span>
+      <span class="evidence-value"></span>
+    </div>
+    <div class="ai-source-tag">Points each signal moved this account's score, relative to an average account. Signed: negative values lowered the score. Per-account attribution, not a causal claim.</div>
+  `;
+}
+
 function splitAiSummary(summary){
   const match=summary.match(/RECOMMENDED_ACTION:\s*(\w+)/i);
   const action=match?match[1].toLowerCase():null;
@@ -244,6 +289,11 @@ function render(c){
         </div>
 
         <div class="panel">
+          <div class="panel-title">ML Score Breakdown</div>
+          ${renderMlExplanation(c.ml_explanation,c.ml_risk_score)}
+        </div>
+
+        <div class="panel">
           <div class="panel-title">AI Investigator</div>
           <div id="ai-body">
             ${c.ai_summary?`
@@ -255,13 +305,14 @@ function render(c){
                 </div>
               `:""}
               <div class="ai-source-tag">Evidence-grounded synthesis · no independent risk assessment</div>
+              <button id="run-investigation" class="btn btn-run" style="margin-top:12px;">
+                Re-run AI Investigation
+              </button>
             `:`
               <button id="run-investigation" class="btn btn-run">Run AI Investigation</button>
             `}
           </div>
         </div>
-
-      </div>
 
       <div class="case-sidebar">
 

@@ -23,9 +23,14 @@ def init_db():
             status TEXT NOT NULL,
             ai_summary TEXT,
             reviewed_at TEXT,
-            reviewer_action TEXT
+            reviewer_action TEXT,
+            ml_explanation TEXT
         )
     """)
+    # migrate databases created before ml_explanation existed
+    columns = [r["name"] for r in conn.execute("PRAGMA table_info(cases)").fetchall()]
+    if "ml_explanation" not in columns:
+        conn.execute("ALTER TABLE cases ADD COLUMN ml_explanation TEXT")
     conn.commit()
     conn.close()
 
@@ -33,8 +38,8 @@ def insert_case(case: dict):
     conn = get_connection()
     conn.execute(
         """
-        INSERT INTO cases (case_id, account_id, created_at, rule_risk_score, ml_risk_score, timeline, evidence, status, ai_summary, reviewed_at, reviewer_action)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO cases (case_id, account_id, created_at, rule_risk_score, ml_risk_score, timeline, evidence, status, ai_summary, reviewed_at, reviewer_action, ml_explanation)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
         (
             case["case_id"],
@@ -48,6 +53,7 @@ def insert_case(case: dict):
             case.get("ai_summary"),
             case.get("reviewed_at"),
             case.get("reviewer_action"),
+            json.dumps(case["ml_explanation"]) if case.get("ml_explanation") else None,
         ),
     )
     conn.commit()
@@ -98,4 +104,5 @@ def _row_to_case(row):
         "ai_summary": row["ai_summary"],
         "reviewed_at": row["reviewed_at"],
         "reviewer_action": row["reviewer_action"],
+        "ml_explanation": json.loads(row["ml_explanation"]) if row["ml_explanation"] else None,
     }

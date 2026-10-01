@@ -12,8 +12,13 @@ class TimelineEvent(BaseModel):
 class EvidenceItem(BaseModel):
     evidence_id: str
     signal: str
-    weight: int
+    weight: float
     value: Any
+
+class MLExplanation(BaseModel):
+    base_score: float
+    drivers: List[EvidenceItem]
+    other: float
 
 class Case(BaseModel):
     case_id: str
@@ -23,6 +28,7 @@ class Case(BaseModel):
     ml_risk_score: float
     timeline: List[TimelineEvent]
     evidence: List[EvidenceItem]
+    ml_explanation: Optional[MLExplanation] = None
     status: str
     ai_summary: Optional[str] = None
     reviewed_at: Optional[str] = None

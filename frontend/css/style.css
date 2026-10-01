@@ -663,3 +663,12 @@ svg.entity-graph{width:100%;height:180px;display:block}
   .shell{grid-template-columns:1fr}
   .rail{display:none}
 }
+
+/* ML score breakdown (signed contributions) */
+.evidence-weight.ml-up{color:var(--risk-high)}
+.evidence-weight.ml-down{color:var(--risk-low)}
+.evidence-row.ml-muted .evidence-weight,
+.evidence-row.ml-muted .evidence-signal{color:var(--text-dim)}
+.evidence-row.ml-total{border-top:1px solid var(--border-strong)}
+.evidence-row.ml-total .evidence-weight,
+.evidence-row.ml-total .evidence-signal{color:var(--text);font-weight:600}

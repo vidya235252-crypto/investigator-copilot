@@ -103,7 +103,7 @@
   "triage_time": {
     "avg_manual_seconds": 8.6,
     "avg_structured_evidence_seconds": 4.7,
-    "avg_ai_summary_seconds_optional": 17.1,
+    "avg_ai_summary_seconds_optional": 23.9,
     "structured_evidence_reduction_percent": 45.8,
     "n_cases": 10,
     "methodology": "Primary comparison is reading the full raw event timeline (manual) vs. the structured evidence list alone (copilot), both as word-count proxies at 200 words/minute. The AI narrative summary is reported separately as optional supplementary reading, since a real investigator would consult it for ambiguous cases rather than always reading it in full. This is a reading-time proxy, not a timed user study."
