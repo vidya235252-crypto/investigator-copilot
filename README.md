@@ -4,7 +4,7 @@
 
 Built for the **Razorpay AI Buildathon 2026 — AI Risk Manager track.**
 
-DEMO: https://drive.google.com/file/d/1_upZdeyv5Vbiq_39YmOKLsdukyIVGdWC/view?usp=sharing
+DEMO VIDEO: https://drive.google.com/file/d/1_upZdeyv5Vbiq_39YmOKLsdukyIVGdWC/view?usp=sharing
 
 ---
 
